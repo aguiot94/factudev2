@@ -1,0 +1,91 @@
+img {
+    width:20px;
+}
+
+#bloc_phone {
+    border-left: 1px solid #cccbcb;
+}
+
+#facture_title {
+    border-top: 1px solid #cccbcb;
+}
+
+#infos_user, div#etp_infos {
+    display:flex;
+    align-items: center;
+}
+
+h1.title {
+    text-transform: uppercase;
+    font-size: 65px;
+}
+
+div#facture_meta {
+    margin-top: 30px;
+    margin-bottom: 60px;
+}
+
+.facture_meta {
+    background:black;
+    color:white;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+table.tftable {
+    width: 100%;
+    border:none;
+    margin-bottom:60px;
+}
+
+td, th {
+    border:none;
+}
+
+.dark {
+    background: #e8e8e8;
+}
+
+.light {
+    background: #f7f7f7;
+}
+
+td {
+    padding: 20px;
+}
+
+th {
+    padding: 15px;
+}
+
+td.total {
+    background: black;
+    color: white;
+}
+
+.banque { 
+    padding-left: 0px;
+}
+
+.merci {
+    padding-top: 60px;
+    padding-bottom: 15px;
+    font-size: 20px;
+}
+
+div#footer {
+    height:70px;
+    display:flex;
+    align-items:center; 
+}
+
+div#tel_footer {
+    border-left: 1px solid #cccbcb;
+    border-right: 1px solid #cccbcb;
+}
+
+.container {
+    width: 100%;
+}
+

@@ -14,6 +14,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { FacturesService } from './services/factures.service';
 import { ContratService } from './services/contrat.service';
 import { ClientService } from './services/client.service';
+import { UserService } from './services/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
@@ -23,6 +24,14 @@ import { ContratFormComponent } from './contrat-list/contrat-form/contrat-form.c
 import { ClientListComponent } from './client-list/client-list.component';
 import { SingleClientComponent } from './client-list/single-client/single-client.component';
 import { ClientFormComponent } from './client-list/client-form/client-form.component';
+import { UserFormComponent } from './user-info/user-form/user-form.component';
+import { UserSingleComponent } from './user-info/user-single/user-single.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+
+
 
 const appRoutes: Routes = [
   { path: 'auth/signup', component: SignupComponent },
@@ -36,9 +45,12 @@ const appRoutes: Routes = [
   { path: 'clients', canActivate: [AuthGuardService], component: ClientListComponent},
   { path: 'clients/new', canActivate: [AuthGuardService], component: ClientFormComponent},
   { path: 'clients/view/:id', canActivate: [AuthGuardService], component: SingleClientComponent},
+  { path: 'user', canActivate : [AuthGuardService], component: UserSingleComponent },
+  { path: 'user/edit', canActivate: [AuthGuardService], component: UserFormComponent},
   { path: '', redirectTo: 'factures', pathMatch: 'full'},
   { path: '***', redirectTo: 'factures'}
 ];
+
 
 @NgModule({
   declarations: [
@@ -54,7 +66,9 @@ const appRoutes: Routes = [
     ContratFormComponent,
     ClientListComponent,
     SingleClientComponent,
-    ClientFormComponent
+    ClientFormComponent,
+    UserFormComponent,
+    UserSingleComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +76,12 @@ const appRoutes: Routes = [
     FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    MatSelectModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule
   ],
-  providers: [AuthService, AuthGuardService, FacturesService, ContratService, ClientService],
+  providers: [AuthService, AuthGuardService, FacturesService, ContratService, ClientService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

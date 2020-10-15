@@ -1,8 +1,145 @@
-<div class="row">
-    <div class="col-xs-12">
-      <h1>Facture n°{{ facture.numero }}</h1>
-      <h3>{{ facture.mois }}</h3>
-      <p>Nombre de jours travaillés : {{ facture.jours }} jours</p>
-      <button class="btn btn-default" (click)="onBack()">Retour</button>
+
+<div id="capture">
+<div class="row" id="infos_user">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+        <h1>{{ UserInfos.prenom }} {{ UserInfos.nom }}</h1>
+        <p id="infos_user">
+          <strong>{{ UserInfos.adresse }} <br>
+                  {{ UserInfos.codePostal }}, {{ UserInfos.ville }}
+          </strong>
+       </p>
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" id="bloc_mail">
+        <img src="assets/mail.png" alt="picto email">
+        <p>{{ UserInfos.mail }}</p>
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" id="bloc_phone">
+        <img src="assets/phone-call.png" alt="picto telephone">
+        <p>{{ UserInfos.telephone }}</p>
+      </div>
+  </div>
+  <div class="row" id="etp_infos">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+        <p id="infos_entreprise">
+          SIRET : {{ UserInfos.siret }} <br>
+          APE : {{ UserInfos.ape }} <br>
+          N° de TVA : {{ UserInfos.numeroTVA }}
+         </p>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6" id="facture_title" >
+        <h1 class="title">Facture</h1>
+      </div>
+  </div>
+  <div class="row" id="facture_meta">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+     <p> 
+       Facturé à : <br>
+       <strong>ESPACE FREELANCE</strong> <br>
+       {{ clientInfos.adresse }}
+     </p>
+     <p><img src="assets/mail.png" alt="picto email"> {{ clientInfos.mail }}</p>
+     <p><img src="assets/phone-call.png" alt="picto telephone"> {{ clientInfos.telephone }}</p>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 facture_meta">
+      <p>Total TTC: <br>
+        <span *ngIf="this.contratInfos.tva">{{ this.totalTTC }}€</span>
+        <span *ngIf="!this.contratInfos.tva">{{ facture.total }}€</span>
+      </p>
+
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 facture_meta">
+      <p>Émis le: <br>
+        {{ facture.date }}
+      </p>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 facture_meta">
+      <p>Facture n° : <br>
+        {{this.annee}}-{{ facture.numero }}
+      </p>
     </div>
   </div>
+
+  <table class="tftable" border="1">
+
+    <tr><th>LIBELLÉ</th><th>PRIX UNITAIRE</th><th>QUANTITÉ</th><th>TOTAL</th></tr>
+    <tr class="dark"><td>Référence contrat : {{ contratInfos.reference }}<br>
+            Responsable {{ clientInfos.nom }} : {{ clientInfos.contact }} <br>
+            Nature de la prestation : {{ contratInfos.prestation }} <br>
+            Mois de la prestation : {{ contratInfos.mois }}
+          </td>
+          <td></td><td></td><td></td></tr>
+
+    <tr class="light"><td>Nombre de jours</td>
+        <td>{{ this.tjm }}€</td>
+        <td>{{ facture.jours }}</td>
+        <td>{{ this.totalHT }}€</td></tr>
+
+    <tr class="dark"><td>Frais de déplacement</td>
+        <td>0.00€</td>
+        <td>0</td>
+        <td>0.00€</td></tr>
+
+    <tr class="light"><td>Astreintes</td>
+        <td>0.00€</td>
+        <td>0</td>
+        <td>0.00€</td></tr>
+
+    <tr *ngIf="contratInfos.tva"><td></td>
+        <td></td>
+        <td>Total HT:</td>
+        <td>{{ this.totalHT }}€</td></tr>
+    
+    <tr *ngIf="contratInfos.tva"><td></td>
+        <td></td>
+        <td>TVA 20%:</td>
+        <td>{{ this.montantTVA }}€</td></tr>
+
+    <tr><td></td>
+        <td></td>
+        <td class="total">Total TTC:</td>
+        <td class="total"><span *ngIf="this.contratInfos.tva">{{ this.totalTTC }}€</span>
+          <span *ngIf="!this.contratInfos.tva">{{ this.totalHT }}€</span></td></tr>
+
+    </table>     
+
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6 banque">
+        <p>
+          <strong>Coordonnées bancaires</strong> <br>
+          IBAN : {{ UserInfos.iban }} <br>
+          BIC : {{ UserInfos.bic }}
+        </p>
+        <p>
+          <strong>{{ UserInfos.prenom }} {{ UserInfos.nom }}</strong> <br>
+          {{ UserInfos.adresse }} <br>
+          {{ UserInfos.codePostal }} {{ UserInfos.ville }}
+        </p>
+      </div>
+    </div>
+    <div class="row merci">
+      <p>Merci pour votre confiance</p>
+    </div>
+    <div class="row">
+      <p>
+        <strong>Paiement à réception de la facture</strong> <br>
+        La présente facture est payable comptant. Toute somme non payée dans les 30 jours est susceptible de porter intérêts sur la base de trois fois le taux d'intérêt légal en vigueur ainsi qu'une indemnité forfaitaire pour frais de recouvrementde 40 euros
+      </p>
+    </div>
+    <div class="row" style="height:5px; background:black; width:100%;">
+    </div>
+
+    <div class="row" id="footer">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2" id="tel_footer">
+          {{ UserInfos.telephone }}
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+          {{ UserInfos.mail }}
+        </div>
+    </div>
+  </div>
+    
+    
+
+  <button data-html2canvas-ignore="true" class="btn btn-default" (click)="onBack()">Retour</button>
+  <button data-html2canvas-ignore="true" class="btn btn-default" (click)="genPDF()">Générer un PDF</button>

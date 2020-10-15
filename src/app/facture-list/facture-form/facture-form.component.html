@@ -3,20 +3,41 @@
       <h2>Enregistrer une nouvelle facture</h2>
       <form [formGroup]="factureForm" (ngSubmit)="onSaveFacture()">
         <div class="form-group">
-          <label for="numero">Numéro de facture</label>
-          <input type="text" id="numero"
-                 class="form-control" formControlName="numero">
+          <label for="date">Date d'émission</label>
+          <input id="date" type="date"
+                    class="form-control" formControlName="date">
         </div>
         <div class="form-group">
           <label for="mois">Mois de facturation</label>
-          <input type="text" id="mois"
-                 class="form-control" formControlName="mois">
+          <select id="mois" class="form-control" formControlName="mois">
+            <option value="Janvier">Janvier</option>
+            <option value="Février">Février</option>
+            <option value="Mars">Mars</option>
+            <option value="Avril">Avril</option>
+            <option value="Mai">Mai</option>
+            <option value="Juin">Juin</option>
+            <option value="Juillet">Juillet</option>
+            <option value="Août">Août</option>
+            <option value="Septembre">Septembre</option>
+            <option value="Octobre">Octobre</option>
+            <option value="Novembre">Novembre</option>
+            <option value="Décembre">Décembre</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="jours">Nombre de jours travaillés</label>
           <input id="jours"
                     class="form-control" formControlName="jours">
         </div>
+        <mat-form-field class="form-group" id="select_contrat">
+            <label for="contrat">Contrat associé</label>
+            <mat-select id="contrat"
+                      class="form-control" formControlName="contrat">
+                      <mat-option *ngFor="let contrat of contrats; let i = index" [ngValue]="contrats[i]">
+                        {{contrats[i].reference}}
+                      </mat-option>
+            </mat-select>
+        </mat-form-field>
         <button class="btn btn-success" [disabled]="factureForm.invalid"
                 type="submit">Enregistrer
         </button>

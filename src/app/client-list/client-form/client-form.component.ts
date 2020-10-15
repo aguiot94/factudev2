@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client.service';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
+import DataSnapshot = firebase.database.DataSnapshot;
 
 @Component({
   selector: 'app-client-form',
@@ -37,9 +39,10 @@ export class ClientFormComponent implements OnInit {
     const mail = this.clientForm.get('mail').value;
     const telephone = this.clientForm.get('telephone').value;
     const adresse = this.clientForm.get('adresse').value;
-    const newClient = new Client(nom, contact, mail, telephone, adresse);
+    const newClient = new Client(nom, adresse, mail, telephone, contact);
     this.clientService.createNewClient(newClient);
     this.router.navigate(['/clients']);
   }
+
 
 }

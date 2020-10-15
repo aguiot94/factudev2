@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav data-html2canvas-ignore="true" class="navbar navbar-default">
     <div class="container-fluid">
       <ul class="nav navbar-nav">
         <li routerLinkActive="active">
@@ -12,6 +12,9 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li routerLinkActive="active" *ngIf="isAuth">
+          <a routerLink="user">Mes informations</a>
+        </li>
         <li routerLinkActive="active" *ngIf="!isAuth">
           <a routerLink="auth/signup">Créer un compte</a>
         </li>

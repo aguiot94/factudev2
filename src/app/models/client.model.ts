@@ -1,4 +1,6 @@
 export class Client {
+
+
     constructor(public nom: string,
                 public adresse: string, 
                 public mail: string, 

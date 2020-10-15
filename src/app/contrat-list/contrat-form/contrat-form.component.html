@@ -14,16 +14,44 @@
         </div>
         <div class="form-group">
           <label for="mois">Mois de la prestation</label>
-          <input type="text" id="mois"
-                    class="form-control" formControlName="mois">
+          <select name="mois" id="mois" class="form-control" formControlName="mois">
+            <option value="Janvier">Janvier</option>
+            <option value="Février">Février</option>
+            <option value="Mars">Mars</option>
+            <option value="Avril">Avril</option>
+            <option value="Mai">Mai</option>
+            <option value="Juin">Juin</option>
+            <option value="Juillet">Juillet</option>
+            <option value="Août">Août</option>
+            <option value="Septembre">Septembre</option>
+            <option value="Octobre">Octobre</option>
+            <option value="Novembre">Novembre</option>
+            <option value="Décembre">Décembre</option>
+          </select>
           
         </div>
         <div class="form-group">
             <label for="tjm">Montant du taux journalier moyen</label>
-            <input type="text" id="tjm"
+            <input type="number" id="tjm"
                       class="form-control" formControlName="tjm">
             
           </div>
+          <div class="form-group">
+            <input type="radio" id="tva_true" name="tva" value="true" formControlName="tva">
+  <label for="tva"> Tva appliquable</label><br>
+  <input type="radio" id="tva_false" name="tva" value="false" formControlName="tva">
+  <label for="tva"> Tva non appliquable</label><br>
+            
+          </div>
+          <mat-form-field class="form-group" id="select_client">
+            <label for="client">Client</label>
+            <mat-select id="client" class="form-control" formControlName="client" name="client">
+                <mat-option *ngFor = "let client of clients; let i = index" [ngValue]="clients[i]">
+                    {{ clients[i].nom }}
+                </mat-option>
+                </mat-select>
+            
+              </mat-form-field>
         <button class="btn btn-success" [disabled]="contratForm.invalid"
                 type="submit">Enregistrer
         </button>
