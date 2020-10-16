@@ -61,6 +61,7 @@ export class ContratFormComponent implements OnInit {
     const client = this.contratForm.get('client').value;
     const newContrat = new Contrat(reference, contact, prestation, mois, tva, tjm);
     newContrat.clientId = client.mail;
+    newContrat.userID = firebase.auth().currentUser.uid;
     this.contratService.createNewContrat(newContrat);
     this.router.navigate(['/contrats']);
 

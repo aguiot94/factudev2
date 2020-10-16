@@ -10,17 +10,18 @@ import DataSnapshot = firebase.database.DataSnapshot;
 export class ClientService {
   clients: Client[] = [];
   clientSubject = new Subject<Client[]>();
+  userID = firebase.auth().currentUser.uid;
 
   emitClients() {
     this.clientSubject.next(this.clients);
   }
 
   saveClients() {
-    firebase.database().ref('/clients').set(this.clients);
+    firebase.database().ref('/clients/' + this.userID).set(this.clients);
   }
 
   getClients() {
-    firebase.database().ref('/clients').on('value', (data: DataSnapshot) => {
+    firebase.database().ref('/clients/' + this.userID).on('value', (data: DataSnapshot) => {
       this.clients = data.val() ? data.val() : [];
       this.emitClients;
     });
@@ -29,7 +30,7 @@ export class ClientService {
   getSingleClient(id: number) {
     return new Promise(
       (resolve, reject) => {
-        firebase.database().ref('/clients/' + id).once('value').then(
+        firebase.database().ref('/clients/' + this.userID + "/" + id).once('value').then(
           (data: DataSnapshot) => {
             resolve(data.val());
           },
@@ -55,9 +56,14 @@ export class ClientService {
       }
     }
     );
-    this.clients.splice(clientIndexToRemove, 1);
+    if(confirm('Êtes-vous sur de vouloir supprimer ce client ?')){
+      this.clients.splice(clientIndexToRemove, 1);
     this.saveClients();
     this.emitClients();
+    } else {
+      return false;
+    }
+    
   }
 
   constructor() { 

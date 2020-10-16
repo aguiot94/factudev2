@@ -1,5 +1,6 @@
 export class Client {
 
+    userID:string;
 
     constructor(public nom: string,
                 public adresse: string, 

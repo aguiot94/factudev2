@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Facture } from '../models/facture.model';
 import * as firebase from 'firebase';
 import DataSnapshot = firebase.database.DataSnapshot;
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ export class FacturesService {
 
   factures: Facture[] = [];
   facturesSubject = new Subject<Facture[]>();
+  userID = firebase.auth().currentUser.uid;
 
-  constructor() { 
+  constructor(private router: Router) { 
     this.getFactures();
   }
 
@@ -21,11 +23,12 @@ export class FacturesService {
   }
 
 saveFactures() {
-  firebase.database().ref('/factures').set(this.factures);
+  firebase.database().ref('/factures/' + this.userID).set(this.factures);
 }
 
 getFactures() {
-  firebase.database().ref('/factures')
+  console.log(this.userID);
+  firebase.database().ref('/factures/' + this.userID)
     .on('value', (data: DataSnapshot) => {
         this.factures = data.val() ? data.val() : [];
         this.emitFactures();
@@ -36,7 +39,7 @@ getFactures() {
 getSingleFacture(id: number) {
   return new Promise(
     (resolve, reject) => {
-      firebase.database().ref('/factures/' + id).once('value').then(
+      firebase.database().ref('/factures/' + this.userID + "/" + id).once('value').then(
         (data: DataSnapshot) => {
           resolve(data.val());
         },
@@ -62,9 +65,14 @@ removeFacture(facture: Facture){
       }
     }
   );
-  this.factures.splice(factureIndexToRemove, 1);
-  this.saveFactures();
-  this.emitFactures();
+  if(confirm('Êtes-vous sur de vouloir supprimer cette facture ?')){
+    this.factures.splice(factureIndexToRemove, 1);
+    this.saveFactures();
+    this.emitFactures();
+  } else {
+    return false;
+  }
+  
 }
 
 

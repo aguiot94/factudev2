@@ -26,18 +26,18 @@
         </div>
         <div class="form-group">
           <label for="jours">Nombre de jours travaillés</label>
-          <input id="jours"
+          <input id="jours" type="number"
                     class="form-control" formControlName="jours">
         </div>
-        <mat-form-field class="form-group" id="select_contrat">
+        <div class="form-group" id="select_contrat">
             <label for="contrat">Contrat associé</label>
-            <mat-select id="contrat"
+            <select id="contrat"
                       class="form-control" formControlName="contrat">
-                      <mat-option *ngFor="let contrat of contrats; let i = index" [ngValue]="contrats[i]">
+                      <option *ngFor="let contrat of contrats; let i = index" [ngValue]="contrats[i]">
                         {{contrats[i].reference}}
-                      </mat-option>
-            </mat-select>
-        </mat-form-field>
+                      </option>
+            </select>
+          </div>
         <button class="btn btn-success" [disabled]="factureForm.invalid"
                 type="submit">Enregistrer
         </button>

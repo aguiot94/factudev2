@@ -40,6 +40,7 @@ export class ClientFormComponent implements OnInit {
     const telephone = this.clientForm.get('telephone').value;
     const adresse = this.clientForm.get('adresse').value;
     const newClient = new Client(nom, adresse, mail, telephone, contact);
+    newClient.userID = firebase.auth().currentUser.uid;
     this.clientService.createNewClient(newClient);
     this.router.navigate(['/clients']);
   }

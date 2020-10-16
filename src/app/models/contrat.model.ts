@@ -3,6 +3,7 @@ import { Client } from '../models/client.model';
 export class Contrat {
 
     clientId: string;
+    userID: string;
 
     constructor(public reference: string,
                 public contact: string,

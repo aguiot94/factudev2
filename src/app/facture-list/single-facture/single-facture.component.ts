@@ -29,6 +29,7 @@ export class SingleFactureComponent implements OnInit {
   montantTVA: string;
   annee;
   tjm:string;
+  userID = firebase.auth().currentUser.uid;
 
 
   constructor(private route: ActivatedRoute,
@@ -47,10 +48,10 @@ export class SingleFactureComponent implements OnInit {
         this.getClient();
         this.getContrat();
         this.getTotal();
+
         this.annee = new Date().getFullYear();
       }
     );
-
 
     //Récupère les informations de l'utilisateur
     this.userService.getUser().then(
@@ -63,24 +64,31 @@ export class SingleFactureComponent implements OnInit {
   
 
 
-  getClient(){
+  /*getClient(){
     const ref = firebase.database().ref('clients/');
     ref.orderByChild('mail').equalTo(this.facture.clientId).on('child_added', (data: DataSnapshot) => {
       this.clientInfos =  data.val();
     });
+} */
+
+getClient(){
+  return new Promise(
+    (resolve, reject) => {
+      const ref = firebase.database().ref('clients/' + this.userID);
+  ref.orderByChild('mail').equalTo(this.facture.clientId).on('child_added', (data: DataSnapshot) => {
+    this.clientInfos = data.val();
+    resolve(data.val());
+  });
+    }
+  );
 }
 
-/*getContrat(){
-  const ref = firebase.database().ref('contrats/');
-  ref.orderByChild('reference').equalTo(this.facture.contratId).on('child_added', (data: DataSnapshot) => {
-    this.contratInfos =  data.val();
-  });
-}*/
+
 
 getContrat(){
   return new Promise(
     (resolve, reject) => {
-      const ref = firebase.database().ref('contrats/');
+      const ref = firebase.database().ref('contrats/' + this.userID);
   ref.orderByChild('reference').equalTo(this.facture.contratId).on('child_added', (data: DataSnapshot) => {
     this.contratInfos = data.val();
     resolve(data.val());

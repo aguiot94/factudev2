@@ -12,8 +12,11 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li routerLinkActive="active" *ngIf="isAuth">
+        <li routerLinkActive="active" *ngIf="isAuth && informationsFulfilled">
           <a routerLink="user">Mes informations</a>
+        </li>
+        <li routerLinkActive="active" *ngIf="isAuth && !informationsFulfilled">
+          <a routerLink="user/edit">Remplir mes informations</a>
         </li>
         <li routerLinkActive="active" *ngIf="!isAuth">
           <a routerLink="auth/signup">Créer un compte</a>

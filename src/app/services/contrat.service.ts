@@ -10,17 +10,18 @@ export class ContratService {
 
   contrats: Contrat[];
   contratsSubject = new Subject<Contrat[]>();
+  userID = firebase.auth().currentUser.uid;
 
   emitContrats(){
     this.contratsSubject.next(this.contrats);
   }
 
   saveContrats(){
-    firebase.database().ref('/contrats').set(this.contrats);
+    firebase.database().ref('/contrats/' + this.userID).set(this.contrats);
   }
 
   getContrats(){
-    firebase.database().ref('/contrats').on('value', (data: DataSnapshot) => {
+    firebase.database().ref('/contrats/' + this.userID).on('value', (data: DataSnapshot) => {
       this.contrats = data.val() ? data.val() : [];
     });
   }
@@ -28,7 +29,7 @@ export class ContratService {
   getSingleContrat(id: number) {
     return new Promise(
       (resolve, reject) => {
-        firebase.database().ref('/contrats/' + id).once('value').then(
+        firebase.database().ref('/contrats/' + this.userID + "/" + id).once('value').then(
           (data: DataSnapshot) => {
             resolve(data.val());
           },
@@ -54,9 +55,14 @@ export class ContratService {
         }
       }
     );
-    this.contrats.splice(contratIndexToRemove, 1);
+    if(confirm('Êtes-vous sur de vouloir supprimer ce contrat ?')){
+      this.contrats.splice(contratIndexToRemove, 1);
     this.saveContrats();
     this.emitContrats();
+    } else {
+      return false;
+    }
+    
   }
 
   constructor() { 

@@ -9,6 +9,7 @@ contratId: number;
 tjm: number;
 total: number;
 clientId: string;
+userID:string;
 
     constructor(public numero: Number, 
                 public mois: String, 

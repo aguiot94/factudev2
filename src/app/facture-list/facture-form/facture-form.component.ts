@@ -20,6 +20,7 @@ export class FactureFormComponent implements OnInit {
   contratsSubscription : Subscription;
   invoiceNumber:number;
   factureForm: FormGroup;
+  userID = firebase.auth().currentUser.uid;
 
   constructor(private formBuilder: FormBuilder, private facturesService: FacturesService,
               private router: Router, private contratService: ContratService) { }
@@ -49,12 +50,12 @@ export class FactureFormComponent implements OnInit {
   getInvoiceNumber(startNumber:number){
     let invoiceNumber:number;
     let numberOfInvoices:number;
-    firebase.database().ref('/factures/').once('value').then(
+    firebase.database().ref('/factures/' + this.userID).once('value').then(
       (data: DataSnapshot) => {
-        numberOfInvoices = data.val().length;
-        if(numberOfInvoices == 0){
-          invoiceNumber = startNumber++;
+        if(data.val() == null){
+          invoiceNumber = (startNumber+1);
         } else {
+          numberOfInvoices = data.val().length;
           invoiceNumber = startNumber + numberOfInvoices + 1;
         }
         this.invoiceNumber = invoiceNumber;
@@ -79,6 +80,7 @@ export class FactureFormComponent implements OnInit {
     newFacture.contratId = contrat.reference;
     newFacture.clientId = contrat.clientId;
     newFacture.tjm = contrat.tjm;
+    newFacture.userID = firebase.auth().currentUser.uid;
     this.facturesService.createNewFacture(newFacture);
     this.router.navigate(['/factures']);
   }

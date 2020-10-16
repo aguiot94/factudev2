@@ -43,15 +43,15 @@
   <label for="tva"> Tva non appliquable</label><br>
             
           </div>
-          <mat-form-field class="form-group" id="select_client">
+          <div class="form-group" id="select_client">
             <label for="client">Client</label>
-            <mat-select id="client" class="form-control" formControlName="client" name="client">
-                <mat-option *ngFor = "let client of clients; let i = index" [ngValue]="clients[i]">
+            <select id="client" class="form-control" formControlName="client" name="client">
+                <option *ngFor = "let client of clients; let i = index" [ngValue]="clients[i]">
                     {{ clients[i].nom }}
-                </mat-option>
-                </mat-select>
+                </option>
+                </select>
             
-              </mat-form-field>
+              </div>
         <button class="btn btn-success" [disabled]="contratForm.invalid"
                 type="submit">Enregistrer
         </button>
